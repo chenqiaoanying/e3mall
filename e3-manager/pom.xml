@@ -17,16 +17,23 @@
         <module>e3-manager-interface</module>
         <module>e3-manager-service</module>
         <module>e3-manager-pojo</module>
-        <module>e3-manager-web</module>
     </modules>
+    <dependencies>
+        <dependency>
+            <groupId>cn.e3mall</groupId>
+            <artifactId>e3-common</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
     <build>
+        <finalName>e3-manager</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <configuration>
                     <path>/</path>
-                    <port>8080</port>
+                    <port>8082</port>
                 </configuration>
             </plugin>
         </plugins>

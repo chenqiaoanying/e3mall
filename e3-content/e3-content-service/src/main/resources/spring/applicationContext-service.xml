@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <context:component-scan base-package="cn.e3mall.content.service"/>
+
+    <bean name="jedisCluster" class="redis.clients.jedis.JedisCluster">
+        <constructor-arg name="nodes">
+            <set>
+                <bean class="redis.clients.jedis.HostAndPort">
+                    <constructor-arg name="host" value="192.168.176.132"/>
+                    <constructor-arg name="port" value="7000"/>
+                </bean>
+                <bean class="redis.clients.jedis.HostAndPort">
+                    <constructor-arg name="host" value="192.168.176.132"/>
+                    <constructor-arg name="port" value="7001"/>
+                </bean>
+                <bean class="redis.clients.jedis.HostAndPort">
+                    <constructor-arg name="host" value="192.168.176.132"/>
+                    <constructor-arg name="port" value="7002"/>
+                </bean>
+                <bean class="redis.clients.jedis.HostAndPort">
+                    <constructor-arg name="host" value="192.168.176.132"/>
+                    <constructor-arg name="port" value="7003"/>
+                </bean>
+                <bean class="redis.clients.jedis.HostAndPort">
+                    <constructor-arg name="host" value="192.168.176.132"/>
+                    <constructor-arg name="port" value="7004"/>
+                </bean>
+                <bean class="redis.clients.jedis.HostAndPort">
+                    <constructor-arg name="host" value="192.168.176.132"/>
+                    <constructor-arg name="port" value="7005"/>
+                </bean>
+            </set>
+        </constructor-arg>
+    </bean>
+
+    <bean id="jedisClient" class="cn.e3mall.common.jedis.JedisClientCluster">
+        <property name="cluster" ref="jedisCluster"/>
+    </bean>
+
+    <bean name="cacheInterceptor" class="cn.e3mall.common.aspect.JedisCacheInterceptor">
+        <property name="jedisClient" ref="jedisClient"/>
+    </bean>
+
+    <!--<aop:aspectj-autoproxy/>-->
+    <!--<aop:config proxy-target-class="true">
+        <aop:pointcut id="doCacheEvictPointcut"
+                      expression="execution(* cn.e3mall.content.service..*.*(..))"/>
+        <aop:advisor order="1" pointcut-ref="doCacheEvictPointcut" advice-ref="cacheInterceptor"/>
+    </aop:config>-->
+
+    <!--<aop:config proxy-target-class="true">
+        <aop:aspect ref="cacheAspect" order="1">
+            <aop:pointcut id="doCacheEvictPointcut" expression="execution(* cn.e3mall.content.service..*.*(..)) @annotation(log)"/>
+            <aop:around pointcut-ref="doCacheEvictPointcut" method="doCacheEvict"/>
+        </aop:aspect>
+    </aop:config>-->
+
+    <dubbo:application name="e3-content"/>
+    <dubbo:registry protocol="zookeeper"
+                    address="192.168.176.130:2181,192.168.176.130:2182,192.168.176.130:2183,192.168.176.130:2182,192.168.176.130:2183"/>
+    <dubbo:protocol name="dubbo" port="20881"/>
+    <dubbo:service interface="cn.e3mall.content.service.ContentCategoryService"
+                   ref="contentCategoryServiceImpl" timeout="60000"/>
+    <dubbo:service interface="cn.e3mall.content.service.ContentService"
+                   ref="contentServiceImpl" timeout="60000"/>
+
+</beans>

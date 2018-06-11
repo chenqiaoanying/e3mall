@@ -17,10 +17,6 @@
             <artifactId>e3-manager-pojo</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>org.mybatis</groupId>
-            <artifactId>mybatis</artifactId>
-        </dependency>
     </dependencies>
 
 </project>
