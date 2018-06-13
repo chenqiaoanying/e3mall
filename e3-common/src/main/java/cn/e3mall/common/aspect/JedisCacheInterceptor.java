@@ -3,6 +3,7 @@ package cn.e3mall.common.aspect;
 import cn.e3mall.common.jedis.JedisClient;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Method;
@@ -16,6 +17,7 @@ public class JedisCacheInterceptor implements MethodInterceptor {
         return jedisClient;
     }
 
+    @Autowired
     public void setJedisClient(JedisClient jedisClient) {
         this.jedisClient = jedisClient;
     }

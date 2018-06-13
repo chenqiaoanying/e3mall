@@ -8,6 +8,8 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+
 @Service
 public class SearchServiceImpl implements SearchService {
 
@@ -19,11 +21,11 @@ public class SearchServiceImpl implements SearchService {
     }
 
     @Override
-    public SearchResult search(String keyword, int page, int rows) throws SolrServerException {
+    public SearchResult search(String keyword, int page, int rows) throws SolrServerException, IOException {
         SolrQuery query = new SolrQuery();
-        query.setQuery("keyword");
+        query.setQuery(keyword);
         query.setHighlight(true);
-        query.setHighlightSimplePost("<em>");
+        query.setHighlightSimplePre("<em style=\"color:red\">");
         query.setHighlightSimplePost("</em>");
         query.setStart(page);
         query.setRows(rows);

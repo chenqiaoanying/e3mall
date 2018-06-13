@@ -17,6 +17,6 @@ public class SolrImportController {
     @RequestMapping("/index/item/import")
     @ResponseBody
     public E3Result importSearchItem() {
-        return searchItemService.selectSearchItemList();
+        return searchItemService.importSearchItemList();
     }
 }

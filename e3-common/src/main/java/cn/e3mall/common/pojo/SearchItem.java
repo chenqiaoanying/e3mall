@@ -1,59 +1,68 @@
 package cn.e3mall.common.pojo;
 
-public class SearchItem {
-    private Long id;
-    private String title;
-    private String sellPoint;
-    private String price;
-    private String image;
-    private String categoryName;
+import org.apache.solr.client.solrj.beans.Field;
 
-    public Long getId() {
+import java.io.Serializable;
+
+public class SearchItem implements Serializable {
+    @Field
+    private String id;
+    @Field
+    private String itemCategoryName;
+    @Field
+    private String itemTitle;
+    @Field
+    private String itemSellPoint;
+    @Field
+    private Long itemPrice;
+    @Field
+    private String itemImage;
+
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getItemCategoryName() {
+        return itemCategoryName;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setItemCategoryName(String itemCategoryName) {
+        this.itemCategoryName = itemCategoryName;
     }
 
-
-    public String getPrice() {
-        return price;
+    public String getItemTitle() {
+        return itemTitle;
     }
 
-    public void setPrice(String price) {
-        this.price = price;
+    public void setItemTitle(String itemTitle) {
+        this.itemTitle = itemTitle;
     }
 
-    public String getImage() {
-        return image;
+    public String getItemSellPoint() {
+        return itemSellPoint;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setItemSellPoint(String itemSellPoint) {
+        this.itemSellPoint = itemSellPoint;
     }
 
-    public String getSellPoint() {
-        return sellPoint;
+    public Long getItemPrice() {
+        return itemPrice;
     }
 
-    public void setSellPoint(String sellPoint) {
-        this.sellPoint = sellPoint;
+    public void setItemPrice(Long itemPrice) {
+        this.itemPrice = itemPrice;
     }
 
-    public String getCategoryName() {
-        return categoryName;
+    public String getItemImage() {
+        return itemImage;
     }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    public void setItemImage(String itemImage) {
+        this.itemImage = itemImage;
     }
 }

@@ -30,6 +30,7 @@
     <mvc:resources location="/images/" mapping="/images/**"/>
     <!-- 引用dubbo服务 -->
     <dubbo:application name="e3-search-web"/>
-    <dubbo:registry protocol="zookeeper" address="192.168.176.130:2181,192.168.176.130:2182,192.168.176.130:2183"/>
+    <dubbo:registry protocol="zookeeper"
+                    address="192.168.176.133:2181"/>
     <dubbo:reference interface="cn.e3mall.search.service.SearchService" id="searchService"/>
 </beans>

@@ -1,16 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.e3mall.search.mapper.CustomItemMapper">
-    <select id="selectItemList" resultType="cn.e3mall.common.pojo.SearchItem">
+    <select id="selectSearchItemList" resultType="cn.e3mall.common.pojo.SearchItem">
         SELECT
-        item.id,
-        item.title,
-        item.sell_point,
-        item.price,
-        item.image,
-        category.name
+            item.id         AS id,
+            item.title      AS itemTitle,
+            item.sell_point AS itemSellPoint,
+            item.price      AS itemPrice,
+            item.image      AS itemImage,
+            category.name   AS itemCategoryName
         FROM tb_item AS item
-        LEFT JOIN tb_item_cat AS category
-        ON item.cid = category.id
+            LEFT JOIN tb_item_cat AS category
+                ON item.cid = category.id
+    </select>
+    <select id="selectSearchItemByID" resultType="cn.e3mall.common.pojo.SearchItem">
+        SELECT
+            item.id         AS id,
+            item.title      AS itemTitle,
+            item.sell_point AS itemSellPoint,
+            item.price      AS itemPrice,
+            item.image      AS itemImage,
+            category.name   AS itemCategoryName
+        FROM tb_item AS item
+            LEFT JOIN tb_item_cat AS category
+                ON item.cid = category.id
+        WHERE item.id = #{itemId}
     </select>
 </mapper>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="targetConnectionFactory" class="org.apache.activemq.pool.PooledConnectionFactory">
+        <constructor-arg name="activeMQConnectionFactory">
+            <bean class="org.apache.activemq.ActiveMQConnectionFactory">
+                <constructor-arg name="brokerURL" value="${MQ_URL}"/>
+            </bean>
+        </constructor-arg>
+    </bean>
+
+    <bean id="connectionFactory" class="org.springframework.jms.connection.SingleConnectionFactory">
+        <constructor-arg name="targetConnectionFactory" ref="targetConnectionFactory"/>
+    </bean>
+
+    <bean class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="defaultDestination" ref="mqQueue"/>
+    </bean>
+
+    <bean id="mqQueue" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg value="spring-queue"/>
+    </bean>
+
+    <bean id="mqTopic" class="org.apache.activemq.command.ActiveMQTopic">
+        <constructor-arg value="spring-topic"/>
+    </bean>
+
+    <bean id="messageListener" class="cn.e3mall.search.message.ItemAddMessageListener"/>
+
+    <bean class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="destination" ref="mqQueue"/>
+        <property name="messageListener" ref="messageListener"/>
+    </bean>
+</beans>

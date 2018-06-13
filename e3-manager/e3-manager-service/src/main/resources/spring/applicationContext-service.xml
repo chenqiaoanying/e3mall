@@ -14,7 +14,7 @@
 
     <dubbo:application name="e3-manager"/>
     <dubbo:registry protocol="zookeeper"
-                    address="192.168.176.130:2181,192.168.176.130:2182,192.168.176.130:2183,192.168.176.130:2182,192.168.176.130:2183"/>
+                    address="192.168.176.133:2181"/>
     <dubbo:protocol name="dubbo" port="20880"/>
     <dubbo:service interface="cn.e3mall.service.ItemService" ref="itemServiceImpl" timeout="60000"/>
     <dubbo:service interface="cn.e3mall.service.ItemCatService" ref="itemCatServiceImpl" timeout="60000"/>

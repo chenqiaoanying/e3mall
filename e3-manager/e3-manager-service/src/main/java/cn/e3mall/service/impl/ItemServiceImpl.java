@@ -12,8 +12,14 @@ import cn.e3mall.service.ItemService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Service;
 
+import javax.jms.Destination;
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.Session;
 import java.util.Date;
 import java.util.List;
 
@@ -21,11 +27,13 @@ import java.util.List;
 public class ItemServiceImpl implements ItemService {
     private final ItemMapper itemMapper;
     private final ItemDescMapper itemDescMapper;
+    private final JmsTemplate jmsTemplate;
 
     @Autowired
-    public ItemServiceImpl(ItemMapper itemMapper, ItemDescMapper itemDescMapper) {
+    public ItemServiceImpl(ItemMapper itemMapper, ItemDescMapper itemDescMapper, JmsTemplate jmsTemplate) {
         this.itemMapper = itemMapper;
         this.itemDescMapper = itemDescMapper;
+        this.jmsTemplate = jmsTemplate;
     }
 
     @Override
@@ -46,7 +54,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public E3Result addItem(Item item, String desc) {
         Date data = new Date();
-        long itemId = IDUtils.genItemId();
+        Long itemId = IDUtils.genItemId();
         item.setId(itemId);
         item.setStatus((byte) 1);//1-正常，2-下架，3-删除
         item.setCreated(data);
@@ -58,6 +66,7 @@ public class ItemServiceImpl implements ItemService {
         itemDesc.setUpdated(data);
         itemMapper.insert(item);
         itemDescMapper.insert(itemDesc);
+        jmsTemplate.send(session -> session.createTextMessage(itemId.toString()));
         return E3Result.ok();
     }
 }

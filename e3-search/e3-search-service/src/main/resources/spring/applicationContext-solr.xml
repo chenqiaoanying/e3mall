@@ -2,7 +2,21 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-    <bean class="org.apache.solr.client.solrj.impl.HttpSolrServer">
+
+    <!--单机版solr-->
+    <bean class="cn.e3mall.search.solr.impl.AloneSolrClientBuilder">
         <constructor-arg value="${SOLR_URL}"/>
     </bean>
+
+    <!--集群版solr-->
+    <!--<bean class="cn.e3mall.search.solr.impl.CloudSolrClientBuilder">
+        <constructor-arg name="zkHosts">
+            <list>
+                <value>192.168.176.130:2181</value>
+                <value>192.168.176.130:2182</value>
+                <value>192.168.176.130:2183</value>
+            </list>
+        </constructor-arg>
+        <constructor-arg name="defaultCollection" value="collection"/>
+    </bean>-->
 </beans>

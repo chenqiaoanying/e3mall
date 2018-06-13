@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 @Controller
@@ -25,8 +26,8 @@ public class SearchController {
     public String search(String keyword,
                          @RequestParam(defaultValue = "1") Integer page,
                          @RequestParam(required = false) Integer rows,
-                         Model model) throws SolrServerException, UnsupportedEncodingException {
-        keyword = new String(keyword.getBytes("UTF-8"), "ISO-8859-1");
+                         Model model) throws SolrServerException, IOException {
+        keyword = new String(keyword.getBytes("ISO-8859-1"), "UTF-8");
         if (rows == null)
             rows = ROWS_OF_PAGE;
         SearchResult searchResult = searchService.search(keyword, page, rows);
