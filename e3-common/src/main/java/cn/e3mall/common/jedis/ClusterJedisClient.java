@@ -44,7 +44,7 @@ public class ClusterJedisClient implements JedisClient {
     }
 
     @Override
-    public Boolean hexits(String key, String field) {
+    public Boolean hexists(String key, String field) {
         return cluster.hexists(key, field);
     }
 
