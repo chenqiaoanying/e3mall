@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd">
+    <!--单机版redis-->
+    <bean class="cn.e3mall.common.jedis.AloneJedisClient">
+        <property name="jedis">
+            <bean class="redis.clients.jedis.Jedis">
+                <constructor-arg name="host" value="192.168.176.133"/>
+                <constructor-arg name="port" value="6379"/>
+            </bean>
+        </property>
+    </bean>
+
+
+    <!--集群版redis-->
+    <!--<bean class="redis.clients.jedis.JedisCluster">
+        <constructor-arg name="nodes">
+            <set>
+                <bean class="redis.clients.jedis.HostAndPort">
+                    <constructor-arg name="host" value="192.168.176.132"/>
+                    <constructor-arg name="port" value="7000"/>
+                </bean>
+                <bean class="redis.clients.jedis.HostAndPort">
+                    <constructor-arg name="host" value="192.168.176.132"/>
+                    <constructor-arg name="port" value="7001"/>
+                </bean>
+                <bean class="redis.clients.jedis.HostAndPort">
+                    <constructor-arg name="host" value="192.168.176.132"/>
+                    <constructor-arg name="port" value="7002"/>
+                </bean>
+                <bean class="redis.clients.jedis.HostAndPort">
+                    <constructor-arg name="host" value="192.168.176.132"/>
+                    <constructor-arg name="port" value="7003"/>
+                </bean>
+                <bean class="redis.clients.jedis.HostAndPort">
+                    <constructor-arg name="host" value="192.168.176.132"/>
+                    <constructor-arg name="port" value="7004"/>
+                </bean>
+                <bean class="redis.clients.jedis.HostAndPort">
+                    <constructor-arg name="host" value="192.168.176.132"/>
+                    <constructor-arg name="port" value="7005"/>
+                </bean>
+            </set>
+        </constructor-arg>
+    </bean>
+
+    <bean id="jedisClient" class="cn.e3mall.common.jedis.ClusterJedisClient">
+        <property name="cluster" ref="jedisCluster"/>
+    </bean>-->
+
+
+    <bean name="cacheInterceptor" class="cn.e3mall.common.aspect.JedisCacheInterceptor"/>
+
+    <!--<aop:aspectj-autoproxy/>-->
+    <!--<aop:config proxy-target-class="true">
+        <aop:pointcut id="doCacheEvictPointcut"
+                      expression="execution(* cn.e3mall.content.service..*.*(..))"/>
+        <aop:advisor order="1" pointcut-ref="doCacheEvictPointcut" advice-ref="cacheInterceptor"/>
+    </aop:config>-->
+
+    <!--<aop:config proxy-target-class="true">
+        <aop:aspect ref="cacheAspect" order="1">
+            <aop:pointcut id="doCacheEvictPointcut" expression="execution(* cn.e3mall.content.service..*.*(..)) @annotation(log)"/>
+            <aop:around pointcut-ref="doCacheEvictPointcut" method="doCacheEvict"/>
+        </aop:aspect>
+    </aop:config>-->
+</beans>

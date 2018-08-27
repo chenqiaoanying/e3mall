@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <context:component-scan base-package="cn.e3mall.sso.service"/>
+
+    <dubbo:application name="e3-soo"/>
+    <dubbo:registry protocol="zookeeper"
+                    address="192.168.176.133:2181"/>
+    <dubbo:protocol name="dubbo" port="20884"/>
+    <dubbo:service interface="cn.e3mall.sso.service.RegisterService"
+                   ref="registerServiceImpl" timeout="60000"/>
+    <dubbo:service interface="cn.e3mall.sso.service.LoginService"
+                   ref="loginServiceImpl" timeout="60000"/>
+    <dubbo:service interface="cn.e3mall.sso.service.TokenService"
+                   ref="tokenServiceImpl" timeout="60000"/>
+</beans>
